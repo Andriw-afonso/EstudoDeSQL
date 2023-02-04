@@ -44,3 +44,40 @@ VALUES (915.50, '2016-01-06', 'Guarda-roupa', 0);
 INSERT INTO compras (valor, data, observacoes, recebida)
 VALUES (949.99, '2016-01-10', 'Smartphone', 0);
 
+-- Filtrando com o WHERE
+SELECT *
+FROM compras
+WHERE valor < 500;
+
+-- Filtrando com WHERE e AND
+SELECT*
+FROM compras
+WHERE valor > 500 AND recebida = 0;
+
+-- Compras mais caras e mais baratas
+SELECT*
+FROM compras
+WHERE valor < 200 OR  valor > 400 ;
+
+-- Pesquisando compras no valor de 20.0
+SELECT*
+FROM compras
+WHERE valor = 20;
+
+-- Filtrando as compras que são Lanchonete
+SELECT*
+FROM compras
+WHERE observacoes = 'Lanchonete';
+
+
+-- Filtrando as observacoes iguais a Parcelas
+INSERT INTO compras(valor, data, observacoes, recebida)
+VALUES(300, '2016-02-03', 'Parcela do carro', 1);
+SELECT*
+FROM compras
+WHERE observacoes LIKE 'Parcela%';
+
+-- Filtrando uma silaba
+SELECT*
+FROM compras
+WHERE observacoes LIKE '%Lan%';
