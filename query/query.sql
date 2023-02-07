@@ -175,8 +175,7 @@ AND data BETWEEN '2013-01-01' AND '2013-12-31';
 -- Editando o campo obervacoes do id = 11
 UPDATE compras SET observacoes = 'Reforma de quartos' WHERE id = 11;
 
-SELECT*
-FROM compras;
+-- Atualizando o valor e as observacoes
 
 
 
