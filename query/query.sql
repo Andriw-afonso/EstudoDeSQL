@@ -304,3 +304,88 @@ CREATE TABLE carro(
     arcondicionado TINYINT DEFAULT 0
 );
 
+-- Reescreva o CREATE TABLE do começo do curso, marcando observacoes como nulo e valor
+-- padrão do recebida como 1.
+CREATE TABLE compras2(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    valor DECIMAL(18,2) DEFAULT 1,
+    data DATE,
+    observacoes VARCHAR(255) NULL,
+    recebida TINYINT    
+);
+
+-- Função soma
+SELECT SUM(valor)
+FROM compras;
+
+-- Vamos verificar o total de todas as compras recebidas:
+SELECT SUM(valor)
+FROM compras
+WHERE recebida = 1;
+
+-- Agora todas as compras que não foram recebidas
+SELECT SUM(valor)
+FROM compras
+WHERE recebida = 0;
+
+-- Podemos também, contar quantas compras foram recebidas por meio da função COUNT()
+SELECT COUNT(valor)
+FROM compras
+WHERE recebida = 1;
+
+-- Atilizando o groupby
+SELECT recebida, SUM(valor)
+FROM compras
+GROUP BY recebida;
+
+-- Utilizando o comando AS
+SELECT recebida, SUM(valor) AS soma
+FROM compras
+GROUP BY recebida
+
+-- GROUP BY com filtro
+SELECT recebida, SUM(valor) as soma 
+FROM compras
+WHERE VALOR < 1000
+GROUP BY recebida;
+
+-- Função de mes e ano
+SELECT MONTH(data) as mes, YEAR(data) as ano, recebida, SUM(valor) as soma 
+FROM compras
+GROUP BY recebida, mes, ano;
+
+-- Utilizando o ORDER BY
+SELECT MONTH(data) as mes, YEAR(data) as ano, recebida, SUM(valor) as soma 
+FROM compras
+GROUP BY recebida, mes, ano
+ORDER BY  ano, mes;
+
+-- Função AVG
+SELECT MONTH(data) as mes, YEAR(data) as ano, recebida, AVG(valor) as media
+FROM compras
+GROUP BY recebida, mes, ano
+ORDER BY  ano, mes;
+
+-- Calcule a média de todas as compras com datas inferiores a 12/05/2013.
+SELECT AVG( valor)
+FROM compras
+WHERE DATA < '2013/05/12';
+
+-- Calcule a quantidade de compras com datas inferiores a 12/05/2013 e que já foram recebidas.
+SELECT COUNT(id) as QuantidadeDeCompras
+FROM compras 
+WHERE data < '2013/05/12' AND recebida = 1;
+
+--Calcule a soma de todas as compras, agrupadas se a compra recebida ou não.
+SELECT recebida,  SUM(valor) as soma
+FROM compras
+GROUP BY recebida;
+
+-- Criando a tabela compradores
+CREATE TABLE compradores(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(200),
+    endereco VARCHAR(200),
+    telefone VARCHAR(30));
+
+
