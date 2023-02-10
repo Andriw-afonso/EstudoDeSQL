@@ -388,4 +388,79 @@ CREATE TABLE compradores(
     endereco VARCHAR(200),
     telefone VARCHAR(30));
 
+-- Inserindo informações na tabela compradores
+INSERT INTO compradores(nome, endereco, telefone)
+VALUES ('Alex Felipe', 'Rua Vergeuiro, 3185', '5571-2751');
+INSERT INTO compradores(nome, endereco, telefone )
+VALUES ('João da Silva', 'Av. Paulista, 6544', '2220-4156');
 
+SELECT*
+FROM compradores;
+
+-- Excluindo a coluna comprador da tabela compras
+ALTER TABLE compras DROP COLUMN comprador;
+
+-- Excluindo a coluna telefone da tabela compras
+ALTER TABLE compras DROP COLUMN telefone;
+
+-- Criando a coluna id_compradores na tabela compras
+ALTER TABLE compras ADD COLUMN id_compradores INT;
+
+-- Definindo os compradores na tablea compras
+UPDATE compras SET id_compradores = 1
+WHERE ID < 22;
+UPDATE compras SET id_compradores = 2 
+WHERE id > 21;
+
+-- Aplicando a primeira vez o JOIN
+SELECT*
+FROM compras
+JOIN compradores ON compras.id_compradores = compradores.id;
+
+-- Definindo a referencia de foreign key
+ALTER TABLE compras ADD CONSTRAINT fk_compradores FOREIGN KEY (id_compradores)
+REFERENCES compradores (id);
+
+-- Inserindo uma nova compra 
+INSERT compras (valor, data, observacoes, id_compradores)
+VALUES (1500, '2016-01-05', 'Playstation 4', 1);
+
+-- Adicionando a coluna forma_pagto informando os dados que podem ser inseridos
+ALTER TABLE compras ADD COLUMN forma_pagto ENUM('BOLETO', 'CREDITO');
+
+-- Inserindo dados incluindo o tipo de pagamento
+INSERT INTO compras(valor, data, observacoes, id_compradores, forma_pagto)
+VALUES (400, '2016-01-06', 'SSD 128GB', 1 , 'BOLETO');
+
+-- Tentando inserir forma de pagamento em Dinheiro
+INSERT INTO compras (valor, data, observacoes, id_compradores, forma_pagto)
+VALUES (80, '2016-01-07', 'Bola de futebol', 2 , 'DINHEIRO');
+
+-- Configurando o sql_mode
+SET SESSION sql_mode = 'STRICT_ALL_TABLES';
+
+-- Verificando o sql_mode
+SELECT @@SESSION.sql_mode;
+
+-- Testando a insercao de dados
+INSERT INTO compras (valor, data, observacoes, id_compradores, forma_pagto)
+VALUES (80, '2016-01-07', 'BOLA DE FUTEBOL', 2, 'DINHEIRO');
+
+-- Configurando a seçao global
+SET GLOBAL sql_mode = 'STRICT_ALL_TABLES';
+
+-- Verificando a secao global
+SELECT @@GLOBAL.sql_mode;
+
+-- Crie a tabela compradores com id , nome , endereco e telefone .
+CREATE TABLE compradore2(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    endereco VARCHAR(255),
+    telefone VARCHAR(255));
+
+-- Insira os compradores, Guilherme e João da Silva.
+INSERT INTO compradore2 (nome, endereco, telefone)
+VALUES ('Guilherme', 'Brazil', '4343-9595');
+INSERT INTO compradore2(nome, endereco, telefone)
+VALUE ('João', 'EUA', '7564-9485')
