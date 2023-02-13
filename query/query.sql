@@ -453,14 +453,42 @@ SET GLOBAL sql_mode = 'STRICT_ALL_TABLES';
 SELECT @@GLOBAL.sql_mode;
 
 -- Crie a tabela compradores com id , nome , endereco e telefone .
-CREATE TABLE compradore2(
+CREATE TABLE compradores(
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255),
     endereco VARCHAR(255),
     telefone VARCHAR(255));
 
 -- Insira os compradores, Guilherme e João da Silva.
-INSERT INTO compradore2 (nome, endereco, telefone)
+INSERT INTO compradores(nome, endereco, telefone)
 VALUES ('Guilherme', 'Brazil', '4343-9595');
-INSERT INTO compradore2(nome, endereco, telefone)
-VALUE ('João', 'EUA', '7564-9485')
+INSERT INTO compradores(nome, endereco, telefone)
+VALUE ('João', 'EUA', '7564-9485');
+
+-- Adicione a coluna id_compradores na tabela compras e defina a chave estrangeira (FOREIGN
+-- KEY) referenciando o id da tabela compradores .
+ALTER TABLE compras ADD COLUMN id_compradores INT;
+ALTER TABLE compras ADD CONSTRAINT fk_compradores FOREIGN KEY (id_compradores)
+REFERENCES compradores (id);
+
+-- Atualize a tabela compras e insira o id dos compradores na coluna id_compradores .
+UPDATE compras SET id_compradores = 1
+WHERE ID < 22;
+UPDATE compras SET id_compradores = 2 
+WHERE id > 21;
+
+-- Exiba o NOME do comprador e o VALOR de todas as compras feitas antes de 09/08/2014.
+SELECT nome, SUM(valor)
+FROM compras
+JOIN compradores ON compras.id_compradores = compradores.id
+WHERE data < '2014/08/09'
+GROUP BY nome;
+
+-- Exiba todas as compras do comprador que possui ID igual a 2.
+SELECT*
+FROM compras
+WHERE id_compradores = 2;
+
+-- Exiba todas as compras (mas sem os dados do comprador), cujo comprador tenha nome que começa
+-- com 'GUILHERME'.
+
