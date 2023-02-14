@@ -491,4 +491,40 @@ WHERE id_compradores = 2;
 
 -- Exiba todas as compras (mas sem os dados do comprador), cujo comprador tenha nome que começa
 -- com 'GUILHERME'.
+SELECT valor, data, observacoes, recebida, nome
+FROM compras
+JOIN compradores ON compras.id_compradores = compradores.id
+WHERE nome LIKE 'Guilherme%';
+
+-- Exiba o nome do comprador e a soma de todas as suas compras.
+SELECT nome , SUM(valor)
+FROM compras
+JOIN compradores ON compras.id_compradores = compradores.id
+GROUP BY nome ;
+
+-- Crie uma coluna chamada "forma_pagto" do tipoENUM
+-- e defina os valores: 'BOLETO' e'CREDITO'.
+ALTER TABLE compras ADD COLUMN forma_pagto ENUM('BOLETO','CREDITO');
+
+--Ative o strict mode na sessão que está utilizando para impossibilitar valores inválidos. Utilize o
+--modo "STRICT_ALL_TABLES". E verifique se o SQL mode foi alterado fazendo um SELECT na
+-- sessão.
+SET GLOBAL sql_mode = 'STRICT_ALL_TABLES';
+SELECT @@GLOBAL.sql_mode;
+
+-- Tente inserir uma compra com forma de pagamento diferente de 'BOLETO' ou 'CREDITO', por
+-- exemplo, 'DINHEIRO' e verifique se o MySQL recusa a inserção.
+INSERT INTO compras (valor, data, observacoes, recebida, id_compradores,forma_pagto)
+VALUES (200, '2023/02/16', 'Parcela do carro', 1, 2, 'OTHERS');
+
+-- Adicione as formas de pagamento para todas as compras por meio da instrução UPDATE .
+UPDATE compras SET forma_pagto = 'BOLETO'
+WHERE id < 20;
+UPDATE compras SET forma_pagto = 'CREDITO'
+WHERE id >= 20;
+
+-- Criando o banco de dados escola
+CREATE DATABASE escola;
+
+
 
