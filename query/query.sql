@@ -526,5 +526,34 @@ WHERE id >= 20;
 -- Criando o banco de dados escola
 CREATE DATABASE escola;
 
+-- Verificando a base de dados
+SHOW TABLES;
 
+-- Visualizando a descricao da tabela aluno 
+DESC aluno;
+
+-- JOIN enntre a tabela aluno e matriculas.
+SELECT a.nome
+FROM aluno a 
+JOIN matricula m ON m.aluno_id = a.id
+
+-- Join da tabela curso e aluno com a tabela matricula
+SELECT a.nome , c.nome
+FROM aluno a 
+JOIN matricula m ON m.aluno_id = a.id 
+JOIN curso c ON m.curso_id = c.id;
+
+
+-- Vamos verificar quantos alunos nós temos na nossa base de dados
+SELECT COUNT(*) 
+FROM aluno;
+
+-- Buscando alunos sem matriculas com EXISTS
+SELECT a.nome
+FROM aluno a 
+WHERE NOT EXISTS (
+    SELECT m.id 
+    FROM matricula m 
+    WHERE m.aluno_id = a.id
+);
 
