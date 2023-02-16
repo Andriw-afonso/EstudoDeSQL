@@ -557,3 +557,46 @@ WHERE NOT EXISTS (
     WHERE m.aluno_id = a.id
 );
 
+-- Vamos pegar todos os exercícios que não foram respondidos utilizando novamente o NOT EXISTS :
+SELECT *
+FROM exercicio e 
+WHERE NOT EXISTS(
+    SELECT r.id 
+    FROM resposta r 
+    WHERE r.exercicio_id = e.id
+);
+
+-- Se quisermos retornar da mesma forma que fizemos no exemplo da planilha, basta informar os
+--campos desejados:
+SELECT e.id , e.pergunta
+FROM exercicio e 
+WHERE NOT EXISTS (
+    SELECT r.id 
+    FROM resposta r 
+    WHERE r.exercicio_id = e.id
+);
+
+-- Todos os cursos que não possuem matrícula
+SELECT c.nome 
+FROM curso c 
+WHERE NOT EXISTS (
+    SELECT m.id 
+    FROM matricula m 
+    WHERE m.curso_id = c.id
+);
+
+-- A instituição informou que tiveram vários exercícios que não foram respondidos pelos alunos nos
+-- cursos que foram realizados recentemente. Vamos verificar quem foram esses alunos, para verificarmos
+-- o motivo de não ter respondido, se foi um problema no sistema ou na base de dados.
+SELECT a.nome , c.nome 
+FROM aluno a 
+JOIN matricula m ON m.aluno_id = a.id 
+JOIN curso c ON m.curso_id = c.id
+WHERE NOT EXISTS(
+    SELECT r.aluno_id 
+    FROM resposta r 
+    WHERE r.aluno_id = a.id
+);
+
+-- Vamos primeiro verificar todos os alunos matriculados
+-- que responderam os exercícios
