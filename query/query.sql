@@ -598,5 +598,21 @@ WHERE NOT EXISTS(
     WHERE r.aluno_id = a.id
 );
 
--- Vamos primeiro verificar todos os alunos matriculados
+-- Vamos primeiro verificar todos os alunos não  matriculados
 -- que responderam os exercícios
+SELECT r.id , a.nome 
+FROM aluno a 
+JOIN NOT EXISTS (
+    SELECT m.aluno_id
+    FROM matricula m 
+    WHERE m.aluno_id = a.id
+);
+
+-- Busque todos os alunos que não tenham nenhuma matrícula nos cursos.
+SELECT a.nome
+FROM aluno a 
+WHERE NOT EXISTS ( 
+    SELECT m.id 
+    FROM matricula m 
+    WHERE m.aluno_id = a.id
+);
