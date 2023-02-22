@@ -627,9 +627,35 @@ WHERE NOT EXISTS (
     WHERE m.aluno_id = a.id AND m.data >= '2015-06-15'
 );
 
+--  Nota média por cursos
+SELECT c.nome, AVG(n.nota)
+FROM nota n
+JOIN resposta r ON n.resposta_id = r.id
+JOIN exercicio e ON r.exercicio_id = e.id
+JOIN secao s ON e.secao_id = s.id
+JOIN curso c ON s.curso_id = c.id 
+GROUP BY c.nome;
 
+-- Quantidade de exercicios por cursos
+SELECT c.nome, COUNT(*) AS contagem
+FROM exercicio e
+JOIN secao s ON e.secao_id = s.id
+JOIN curso c ON s.curso_id = c.id
+GROUP BY c.nome;
 
+GROUP BY c.nome;
+-- Quantidade de alunos matriculados por cursos
+SELECT c.nome , COUNT(a.id) AS quantidade
+FROM curso c 
+JOIN matricula m ON m.curso_id = c.id
+JOIN aluno a ON m.aluno_id = a.id
+GROUP BY c.nome;
 
-
-
- 
+-- Exiba a média das notas por curso.
+SELECT curso.nome , AVG(nota.nota)
+FROM nota
+JOIN resposta ON nota.resposta_id = resposta.id
+JOIN exercicio ON resposta.exercicio_id = exercicio.id 
+JOIN secao ON exercicio.secao_id = secao.id 
+JOIN curso ON secao.curso_id = curso.id 
+GROUP BY curso.nome;
