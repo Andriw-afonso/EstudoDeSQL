@@ -627,7 +627,7 @@ WHERE NOT EXISTS (
     WHERE m.aluno_id = a.id AND m.data >= '2015-06-15'
 );
 
---  Nota média por cursos
+-- Nota média por cursos
 SELECT c.nome, AVG(n.nota)
 FROM nota n
 JOIN resposta r ON n.resposta_id = r.id
@@ -643,7 +643,6 @@ JOIN secao s ON e.secao_id = s.id
 JOIN curso c ON s.curso_id = c.id
 GROUP BY c.nome;
 
-GROUP BY c.nome;
 -- Quantidade de alunos matriculados por cursos
 SELECT c.nome , COUNT(a.id) AS quantidade
 FROM curso c 
@@ -659,3 +658,25 @@ JOIN exercicio ON resposta.exercicio_id = exercicio.id
 JOIN secao ON exercicio.secao_id = secao.id 
 JOIN curso ON secao.curso_id = curso.id 
 GROUP BY curso.nome;
+
+-- Devolva o curso e as médias de notas, levando em conta somente alunos que tenham "Silva" ou
+-- "Santos" no sobrenome.
+SELECT c.nome , AVG(n.nota)
+FROM nota n
+JOIN resposta r ON n.resposta_id = r.id
+JOIN exercicio e ON r.exercicio_id = e.id
+JOIN secao s ON e.secao_id = s.id
+JOIN curso c ON s.curso_id = c.id 
+JOIN aluno a ON c.id = a.id
+WHERE a.nome LIKE '%Santos' OR a.nome LIKE '%Silva'
+GROUP BY c.nome;
+
+-- Conte a quantidade de respostas por exercício. Exiba a pergunta e o número de respostas.
+
+
+
+
+
+
+
+
