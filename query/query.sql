@@ -672,6 +672,18 @@ WHERE a.nome LIKE '%Santos' OR a.nome LIKE '%Silva'
 GROUP BY c.nome;
 
 -- Conte a quantidade de respostas por exercício. Exiba a pergunta e o número de respostas.
+SELECT pergunta , COUNT(exercicio_id) AS quantidade
+FROM exercicio
+JOIN resposta ON exercicio.id = resposta.exercicio_id
+GROUP BY pergunta;
+
+-- Você pode ordenar pelo COUNT também. Basta colocar ORDER BY COUNT(coluna).
+SELECT pergunta , COUNT(exercicio_id) AS quantidade
+FROM exercicio
+JOIN resposta ON exercicio.id = resposta.exercicio_id
+GROUP BY pergunta
+ORDER BY  COUNT(pergunta) DESC;
+
 
 
 
