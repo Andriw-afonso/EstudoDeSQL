@@ -684,11 +684,75 @@ JOIN resposta ON exercicio.id = resposta.exercicio_id
 GROUP BY pergunta
 ORDER BY  COUNT(pergunta) DESC;
 
+-- nota media por aluno e curso
+SELECT a.nome, c.nome, AVG(n.nota) 
+FROM nota n
+JOIN resposta r ON r.id = n.resposta_id
+JOIN exercicio e ON e.id = r.exercicio_id
+JOIN secao s ON s.id = e.secao_id
+JOIN curso c ON c.id = s.curso_id
+JOIN aluno a ON a.id = r.aluno_id
+GROUP BY a.nome, c.nome;
 
+-- Media de notas < 5 
+SELECT a.nome, c.nome, AVG(n.nota) 
+FROM nota n
+JOIN resposta r ON r.id = n.resposta_id
+JOIN exercicio e ON e.id = r.exercicio_id
+JOIN secao s ON s.id = e.secao_id
+JOIN curso c ON c.id = s.curso_id
+JOIN aluno a ON a.id = r.aluno_id
+GROUP BY a.nome, c.nome
+HAVING AVG(n.nota) < 5;
 
+-- Média de notas de alunos aprovados
+SELECT a.nome, c.nome, AVG(n.nota) 
+FROM nota n
+JOIN resposta r ON r.id = n.resposta_id
+JOIN exercicio e ON e.id = r.exercicio_id
+JOIN secao s ON s.id = e.secao_id
+JOIN curso c ON c.id = s.curso_id
+JOIN aluno a ON a.id = r.aluno_id
+GROUP BY a.nome, c.nome
+HAVING AVG(n.nota) >= 5;
 
+-- Cursos que possuem menos de 5 alunos
+SELECT c.nome , COUNT(a.id)
+FROM curso c 
+JOIN matricula m ON m.curso_id = c.id 
+JOIN aluno a ON m.aluno_id = a.id
+GROUP BY c.nome
+HAVING COUNT(a.id) < 10;
 
+-- Devolva todos os alunos, cursos e a média de suas notas. Lembre-se de agrupar por aluno e por
+-- curso. Filtre também pela nota: só mostre alunos com nota média menor do que 5.
+SELECT a.nome, c.nome, AVG(n.nota) 
+FROM nota n
+JOIN resposta r ON r.id = n.resposta_id
+JOIN exercicio e ON e.id = r.exercicio_id
+JOIN secao s ON s.id = e.secao_id
+JOIN curso c ON c.id = s.curso_id
+JOIN aluno a ON a.id = r.aluno_id
+GROUP BY a.nome, c.nome
+HAVING AVG(n.nota) < 5;
 
+-- Exiba todos os cursos e a sua quantidade de matrículas. Mas, exiba somente cursos que tenham mais
+--de 1 matrícula.
+SELECT c.nome , COUNT(a.id)
+FROM curso c 
+JOIN matricula m ON m.curso_id = c.id 
+JOIN aluno a ON m.aluno_id = a.id 
+GROUP BY c.nome 
+HAVING COUNT(a.id) > 1;
+
+-- Exiba o nome do curso e a quantidade de seções que existe nele. Mostre só cursos com mais de 3
+-- seções.
+-- curso, secoes
+SELECT curso.nome, COUNT(secao.curso_id)
+FROM curso 
+JOIN secao ON curso.id = secao.curso_id
+GROUP BY curso.nome
+HAVING COUNT(secao.curso_id) > 3;
 
 
 
