@@ -747,12 +747,28 @@ HAVING COUNT(a.id) > 1;
 
 -- Exiba o nome do curso e a quantidade de seções que existe nele. Mostre só cursos com mais de 3
 -- seções.
--- curso, secoes
 SELECT curso.nome, COUNT(secao.curso_id)
 FROM curso 
 JOIN secao ON curso.id = secao.curso_id
 GROUP BY curso.nome
 HAVING COUNT(secao.curso_id) > 3;
+
+-- Utilizando o comando IN
+SELECT c.nome , COUNT(m.id) , m.tipo
+FROM matricula m 
+JOIN curso c ON m.curso_id = c.id
+WHERE m.tipo IN ('PAGA_PJ','PAGA_PF','PAGA_CHEQUE','PAGA_BOLETO')
+GROUP BY c.nome, m.tipo;
+
+-- Alunos aptos 
+SELECT a.nome , c.nome 
+FROM aluno a 
+JOIN matricula m ON m.aluno_id = a.id 
+JOIN curso c ON m.curso_id = c.id
+WHERE c.id IN (1, 4)
+ORDER BY a.nome;
+
+
 
 
 
